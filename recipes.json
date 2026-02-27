@@ -1,0 +1,145 @@
+{
+  "recipes": [
+    {
+      "id": "4",
+      "title": "Mom's Spicy Chicken Rice",
+      "category": "mains",
+      "emoji": "🍛",
+      "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600",
+      "description": "Aromatic, flavorful chicken and rice cooked the traditional way.",
+      "prepTime": "1 hr 45 min",
+      "servings": "6 people",
+      "story": "This dish is a beautiful example of the 'Pulao' tradition from the Indian subcontinent, where rice and meat are cooked together in one pot. The technique of 'dum' — sealing the pot and letting it cook on low heat — traps all the aromatic steam inside, allowing the flavors to meld perfectly. Every family has their own version, passed down through generations. This is Q's mom's special take, with the perfect balance of spices.",
+      "ingredients": [
+        "1/3 onion, sliced",
+        "Oil for frying",
+        "1 tsp cumin seeds (zeera)",
+        "1 tsp whole black pepper (sabat)",
+        "5-6 cloves (laung)",
+        "1 stick cinnamon",
+        "1 tbsp ginger-garlic paste",
+        "Salt to taste (1 tsp per cup of rice)",
+        "1.5 tsp red chili powder (mirch)",
+        "Half tsp turmeric (haldi)",
+        "1 whole chicken, cut into pieces",
+        "4 tomatoes, diced (more is better)",
+        "6 cups water",
+        "3 cups rice, pre-boiled",
+        "4 green chilies, halved"
+      ],
+      "instructions": [
+        "Heat oil in a large pot. Add sliced onions and fry until golden brown.",
+        "Add water to the fried onions (about a glass) and let it cook.",
+        "Add cumin seeds, whole black pepper, cloves, and cinnamon stick. Sauté for a minute.",
+        "Add ginger-garlic paste and cook until the raw smell disappears.",
+        "Add salt, red chili powder, and turmeric. Mix well.",
+        "Add the whole chicken pieces. The chicken will release its own water. Cook on high heat.",
+        "Once the chicken is well-fried (bhoons), add the diced tomatoes. Let them cook until soft and mushy.",
+        "When the chicken becomes slightly tender, add 6 cups of water and bring to a boil.",
+        "Add the pre-boiled rice and green chilies.",
+        "Cook on high heat until most of the water evaporates.",
+        "Put the lid on (dum) and let it cook on low heat until the rice is fully cooked and fluffy."
+      ],
+      "notes": "The key is to let the onions brown well before adding water — that's where the flavor comes from!"
+    },
+    {
+      "id": "5",
+      "title": "Pakora Curry",
+      "category": "mains",
+      "emoji": "🥘",
+      "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600",
+      "description": "Crispy pakoras soaked in a rich, aromatic curry.",
+      "prepTime": "1 hour",
+      "servings": "4-6 people",
+      "story": "Pakoras are believed to have originated in the Indian subcontinent during the Mughal era, when they were introduced as a savory snack for royalty. Today, they're loved across South Asia and beyond. This curry version transforms leftover pakoras into a hearty main dish — a brilliant example of 'waste not, want not' cooking that home cooks have perfected over generations. The yogurt-based gravy is cooling against the crispy, spiced pakoras.",
+      "ingredients": [
+        "3/4 cup yogurt (beaten, no lumps)",
+        "3 tbsp besan (gram flour)",
+        "Water (half a dekchi/dutch oven)",
+        "1.5 tsp red chili powder (mirch)",
+        "1 tsp salt (namak)",
+        "1 tsp turmeric (haldi)",
+        "2 curry leaves (kari pata)",
+        "3 small onions, sliced",
+        "3 tbsp oil",
+        "3 tomatoes, chopped",
+        "1 tbsp ginger-garlic paste",
+        "6 heaping tbsp besan (gram flour)",
+        "1 tsp cumin seeds (zeera)",
+        "2 small onions, sliced",
+        "1 onion, chopped (for tarka)",
+        "3 dried red chilies (gol sabit)"
+      ],
+      "instructions": [
+        "Make the Curry: Whisk yogurt and besan together until smooth with no lumps. Add water to fill half the dekchi. Mix in 1.5 tsp mirch, 1 tsp salt, and half tsp haldi. Add 2 kari pata. Turn off heat and set aside.",
+        "Make the Masala: Heat 3 tbsp oil in a pan. Add sliced onions and fry until golden brown. Add a splash of water. Add tomatoes, 1 tsp salt, 1.5 tsp mirch, half tsp haldi, and ginger-garlic paste. Cook until tomatoes are soft and mushy. Set aside.",
+        "Make the Pakora: Mix besan, 1 tsp mirch, 1 tsp salt, and zeera. Add little water to make a thick batter. Let it rest — small lumps should form. Add sliced onions and mix. Fry small spoonfuls until golden and crispy. Set aside.",
+        "Combine: Add the masala to the yogurt curry mixture. Turn on heat and bring to a gentle simmer. Add the pakoras carefully. Stir gently and let them soak in the gravy for a few minutes.",
+        "Make the Tarka: In a small pan, heat 2 tbsp oil. Add chopped onion and fry until golden. Add zeera, kari pata, and dried red chilies. Let them sizzle.",
+        "Finish: Pour the hot tarka over the curry. Serve hot with naan or rice!"
+      ],
+      "notes": "The tarka (tadka) is what brings it all together — make sure it's sizzling hot when you pour it!"
+    },
+    {
+      "id": "6",
+      "title": "Baingan Bhaji",
+      "category": "sides",
+      "emoji": "🍆",
+      "image": "https://images.unsplash.com/photo-1529589510304-b7e994a92f60?w=600",
+      "description": "Tender eggplant cooked with onions, peppers, and aromatic spices.",
+      "prepTime": "45 min",
+      "servings": "4 people",
+      "story": "Eggplant has been cultivated for over 5,000 years, originating in India and China. In South Asian kitchens, it became a beloved vegetable thanks to its ability to absorb flavors beautifully. 'Bhaji' simply means 'vegetable' in many regional languages, and this dish is a comforting home-style preparation that varies from household to household. The key is getting the eggplant crispy before adding it to the spices — that texture contrast makes it special.",
+      "ingredients": [
+        "2 eggplants, sliced",
+        "2 onions, sliced",
+        "2 red peppers, sliced",
+        "1 tsp salt",
+        "1 tsp turmeric (haldi)",
+        "1 tbsp ginger-garlic paste",
+        "Oil for frying"
+      ],
+      "instructions": [
+        "Heat oil in a pan over medium heat. Add sliced onions and sauté until translucent.",
+        "Add the red peppers and cook for a few minutes.",
+        "Add salt, turmeric, and ginger-garlic paste. Stir and cook on low heat for 2 minutes.",
+        "In a separate pan, fry the eggplant slices until golden and cooked through.",
+        "Add the fried eggplant to the onion mixture. Gently mix everything together.",
+        "Put the lid on and let it cook on dum (low heat) for 5-10 minutes so flavors meld together.",
+        "Serve hot as a side with rice or roti!"
+      ],
+      "notes": "Fry the eggplant on medium-high heat for the best crispiness before adding to the onions."
+    },
+    {
+      "id": "7",
+      "title": "Chicken Kadai",
+      "category": "mains",
+      "emoji": "🍗",
+      "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600",
+      "description": "A quick and flavorful chicken curry with onions, tomatoes, and aromatic spices.",
+      "prepTime": "45 min",
+      "servings": "4 people",
+      "story": "The 'Kadai' is a traditional wok-like cooking vessel made of heavy iron, originally from the Indian subcontinent. Its deep, round shape and high heat retention make it perfect for stir-fries and quick curries. This dish is named after the vessel it's cooked in — the intense heat of the kadai gives the chicken a distinctive smoky flavor that you just can't replicate in a regular pan. It's a weeknight staple in many homes because it comes together so quickly.",
+      "ingredients": [
+        "4 small onions, sliced",
+        "1 tsp cumin seeds (zeera)",
+        "Oil",
+        "500g chicken pieces",
+        "1 tsp turmeric (haldi)",
+        "1 tsp black pepper (sabat)",
+        "Salt to taste",
+        "2 tomatoes, chopped"
+      ],
+      "instructions": [
+        "Heat oil in a kadai or large pan. Add cumin seeds and let them sizzle.",
+        "Add sliced onions and cook until soft and translucent.",
+        "Add the chicken pieces. Fry for a few minutes until the water from the chicken evaporates.",
+        "Add turmeric, black pepper, and salt. Mix well.",
+        "Add chopped tomatoes and stir.",
+        "Reduce heat to low, cover, and let cook until chicken is tender and cooked through.",
+        "Serve hot with roti, naan, or rice!"
+      ],
+      "notes": "The key is to let the onions cook down nicely before adding the chicken."
+    }
+  ]
+}

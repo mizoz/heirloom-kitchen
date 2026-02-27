@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heirloom Kitchen - Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FDF8F3;
+      --warm-brown: #8B6F5C;
+      --deep-brown: #4A3728;
+      --sage: #9CAF88;
+      --gold: #D4A853;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--deep-brown);
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    
+    header {
+      background: var(--deep-brown);
+      color: var(--cream);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    header h1 { font-size: 1.5rem; }
+    
+    header a {
+      color: var(--cream);
+      text-decoration: none;
+      opacity: 0.8;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    
+    h2 { margin-bottom: 1.5rem; color: var(--warm-brown); }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--warm-brown);
+    }
+    
+    textarea { resize: vertical; min-height: 100px; }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: var(--warm-brown);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--deep-brown);
+    }
+    
+    .btn-secondary {
+      background: var(--sage);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #7a9468;
+    }
+    
+    .recipe-list {
+      margin-top: 2rem;
+    }
+    
+    .recipe-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .recipe-item:last-child { border-bottom: none; }
+    
+    .recipe-item span {
+      font-weight: 500;
+    }
+    
+    .recipe-actions button {
+      padding: 0.4rem 0.8rem;
+      margin-left: 0.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    
+    .btn-edit { background: var(--gold); color: white; }
+    .btn-delete { background: #e74c3c; color: white; }
+    
+    .hidden { display: none; }
+    
+    .ingredient-row, .instruction-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .ingredient-row input, .instruction-row input {
+      margin-bottom: 0;
+    }
+    
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      width: 36px;
+      cursor: pointer;
+    }
+    
+    #message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    
+    #message.success {
+      display: block;
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    #message.error {
+      display: block;
+      background: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏡 Heirloom Kitchen - Admin</h1>
+    <a href="index.html">← View Site</a>
+  </header>
+  
+  <div class="container">
+    <div id="message"></div>
+    
+    <div class="section">
+      <h2 id="formTitle">Add New Recipe</h2>
+      <form id="recipeForm">
+        <input type="hidden" id="recipeId">
+        
+        <label>Recipe Title</label>
+        <input type="text" id="title" required placeholder="e.g., Mom's Apple Pie">
+        
+        <label>Category</label>
+        <select id="category" required>
+          <option value="mains">Mains</option>
+          <option value="desserts">Desserts</option>
+          <option value="sides">Sides</option>
+          <option value="soups">Soups</option>
+        </select>
+        
+        <label>Emoji (optional)</label>
+        <input type="text" id="emoji" placeholder="🥧" maxlength="2">
+        
+        <label>Description</label>
+        <textarea id="description" required placeholder="A short description of the recipe..."></textarea>
+        
+        <label>Prep Time</label>
+        <input type="text" id="prepTime" placeholder="e.g., 1 hr 30 min">
+        
+        <label>Servings</label>
+        <input type="text" id="servings" placeholder="e.g., 8 slices">
+        
+        <label>Ingredients (one per line)</label>
+        <textarea id="ingredientsInput" placeholder="2 cups flour&#10;1 tsp salt&#10;..."></textarea>
+        
+        <label>Instructions (one per line)</label>
+        <textarea id="instructionsInput" placeholder="Preheat oven to 350°F&#10;Mix dry ingredients..."></textarea>
+        
+        <label>Mom's Notes (optional)</label>
+        <textarea id="notes" placeholder="Any tips or family stories..."></textarea>
+        
+        <button type="submit" class="btn btn-primary" id="submitBtn">Add Recipe</button>
+        <button type="button" class="btn btn-secondary hidden" id="cancelBtn">Cancel</button>
+      </form>
+    </div>
+    
+    <div class="section">
+      <h2>Your Recipes</h2>
+      <div class="recipe-list" id="recipeList"></div>
+    </div>
+  </div>
+
+  <script>
+    let recipes = [];
+    
+    async function loadRecipes() {
+      try {
+        const res = await fetch('recipes.json');
+        recipes = await res.json();
+        renderList();
+      } catch (e) {
+        recipes = { recipes: [] };
+      }
+    }
+    
+    function renderList() {
+      const list = document.getElementById('recipeList');
+      if (!recipes.recipes.length) {
+        list.innerHTML = '<p>No recipes yet. Add your first one!</p>';
+        return;
+      }
+      
+      list.innerHTML = recipes.recipes.map(r => `
+        <div class="recipe-item">
+          <span>${r.emoji || ''} ${r.title}</span>
+          <div class="recipe-actions">
+            <button class="btn-edit" onclick="editRecipe('${r.id}')">Edit</button>
+            <button class="btn-delete" onclick="deleteRecipe('${r.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function editRecipe(id) {
+      const r = recipes.recipes.find(x => x.id === id);
+      if (!r) return;
+      
+      document.getElementById('recipeId').value = r.id;
+      document.getElementById('title').value = r.title;
+      document.getElementById('category').value = r.category;
+      document.getElementById('emoji').value = r.emoji || '';
+      document.getElementById('description').value = r.description;
+      document.getElementById('prepTime').value = r.prepTime || '';
+      document.getElementById('servings').value = r.servings || '';
+      document.getElementById('ingredientsInput').value = r.ingredients.join('\n');
+      document.getElementById('instructionsInput').value = r.instructions.join('\n');
+      document.getElementById('notes').value = r.notes || '';
+      
+      document.getElementById('formTitle').textContent = 'Edit Recipe';
+      document.getElementById('submitBtn').textContent = 'Update Recipe';
+      document.getElementById('cancelBtn').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+    
+    async function deleteRecipe(id) {
+      if (!confirm('Delete this recipe?')) return;
+      
+      recipes.recipes = recipes.recipes.filter(x => x.id !== id);
+      await saveRecipes();
+      renderList();
+      showMessage('Recipe deleted', 'success');
+    }
+    
+    document.getElementById('recipeForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      
+      const id = document.getElementById('recipeId').value || Date.now().toString();
+      const recipe = {
+        id,
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        emoji: document.getElementById('emoji').value,
+        description: document.getElementById('description').value,
+        prepTime: document.getElementById('prepTime').value,
+        servings: document.getElementById('servings').value,
+        ingredients: document.getElementById('ingredientsInput').value.split('\n').filter(x => x.trim()),
+        instructions: document.getElementById('instructionsInput').value.split('\n').filter(x => x.trim()),
+        notes: document.getElementById('notes').value
+      };
+      
+      const existingIndex = recipes.recipes.findIndex(x => x.id === id);
+      if (existingIndex >= 0) {
+        recipes.recipes[existingIndex] = recipe;
+      } else {
+        recipes.recipes.push(recipe);
+      }
+      
+      await saveRecipes();
+      renderList();
+      resetForm();
+      showMessage(existingIndex >= 0 ? 'Recipe updated!' : 'Recipe added!', 'success');
+    });
+    
+    document.getElementById('cancelBtn').addEventListener('click', resetForm);
+    
+    function resetForm() {
+      document.getElementById('recipeForm').reset();
+      document.getElementById('recipeId').value = '';
+      document.getElementById('formTitle').textContent = 'Add New Recipe';
+      document.getElementById('submitBtn').textContent = 'Add Recipe';
+      document.getElementById('cancelBtn').classList.add('hidden');
+    }
+    
+    async function saveRecipes() {
+      const blob = new Blob([JSON.stringify(recipes, null, 2)], { type: 'application/json' });
+      
+      // For local development, we'll create a download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'recipes.json';
+      a.click();
+      
+      // Also try to save to localStorage as backup
+      localStorage.setItem('heirloomRecipes', JSON.stringify(recipes));
+    }
+    
+    function showMessage(text, type) {
+      const msg = document.getElementById('message');
+      msg.textContent = text;
+      msg.className = type;
+      setTimeout(() => msg.className = '', 3000);
+    }
+    
+    // Load from localStorage if available
+    const saved = localStorage.getItem('heirloomRecipes');
+    if (saved) {
+      recipes = JSON.parse(saved);
+    }
+    
+    loadRecipes();
+  </script>
+</body>
+</html>

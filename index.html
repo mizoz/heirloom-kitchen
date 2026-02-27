@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heirloom Kitchen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FDF8F3;
+      --warm-brown: #8B6F5C;
+      --deep-brown: #4A3728;
+      --sage: #9CAF88;
+      --gold: #D4A853;
+      --white: #FFFFFF;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--deep-brown);
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    
+    header {
+      background: var(--deep-brown);
+      color: var(--cream);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(156, 175, 136, 0.2) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 50%, rgba(212, 168, 83, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    header p {
+      font-style: italic;
+      opacity: 0.9;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .search-container {
+      max-width: 600px;
+      margin: -1.5rem auto 2rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .search-box {
+      width: 100%;
+      padding: 1.25rem 2rem;
+      border: none;
+      border-radius: 60px;
+      font-size: 1rem;
+      background: var(--white);
+      box-shadow: 0 8px 30px rgba(74, 55, 40, 0.15);
+      outline: none;
+      transition: box-shadow 0.3s;
+    }
+    
+    .search-box:focus {
+      box-shadow: 0 12px 40px rgba(74, 55, 40, 0.2);
+    }
+    
+    .categories {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding: 0 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .category-btn {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      background: var(--white);
+      color: var(--warm-brown);
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    
+    .category-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .category-btn.active {
+      background: var(--warm-brown);
+      color: white;
+      border-color: var(--warm-brown);
+    }
+    
+    .recipes-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--warm-brown);
+    }
+    
+    .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    
+    .recipe-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .recipe-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+    
+    .recipe-card.hidden {
+      display: none;
+    }
+    
+    .recipe-image {
+      height: 200px;
+      background: linear-gradient(135deg, var(--sage), var(--warm-brown));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .recipe-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .recipe-image .emoji {
+      font-size: 4rem;
+    }
+    
+    .recipe-content {
+      padding: 1.5rem;
+    }
+    
+    .recipe-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .recipe-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: var(--deep-brown);
+    }
+    
+    .recipe-desc {
+      font-size: 0.9rem;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .recipe-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    
+    .recipe-modal.open {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+    
+    .modal-content {
+      background: var(--white);
+      border-radius: 24px;
+      max-width: 750px;
+      width: 100%;
+      max-height: none;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.4s ease;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--white);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--deep-brown);
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .modal-close:hover {
+      transform: rotate(90deg);
+    }
+    
+    .modal-image {
+      height: 280px;
+      background: linear-gradient(135deg, var(--sage), var(--warm-brown));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .modal-image .emoji {
+      font-size: 6rem;
+    }
+    
+    .modal-body {
+      padding: 2.5rem;
+    }
+    
+    .modal-body h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--deep-brown);
+    }
+    
+    .modal-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--sage);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .modal-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .modal-section {
+      margin-bottom: 2rem;
+    }
+    
+    .modal-section.story {
+      background: linear-gradient(135deg, rgba(253, 248, 243, 0.8), rgba(156, 175, 136, 0.1));
+      padding: 1.5rem;
+      border-left: 4px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #555;
+      line-height: 1.8;
+    }
+    
+    .modal-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--warm-brown);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .modal-section h3::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    
+    .modal-section ul, .modal-section ol {
+      padding-left: 1.5rem;
+    }
+    
+    .modal-section li {
+      margin-bottom: 0.75rem;
+      color: #444;
+    }
+    
+    .modal-section.ingredients li {
+      list-style: none;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .modal-section.ingredients li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: bold;
+    }
+    
+    .modal-section.notes {
+      background: #f9f9f9;
+      padding: 1.25rem;
+      border-radius: 12px;
+    }
+    
+    .modal-section.notes h3::before {
+      background: var(--sage);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #999;
+      grid-column: 1 / -1;
+    }
+    
+    .empty-state .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--warm-brown);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      .recipes-grid { gap: 1.5rem; padding: 0 1rem; }
+      .modal-body { padding: 1.5rem; }
+      .modal-body h2 { font-size: 1.6rem; }
+      .modal-image { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏡 Heirloom Kitchen</h1>
+    <p>Recipes Passed Down with Love</p>
+  </header>
+  
+  <div class="search-container">
+    <input type="text" class="search-box" id="search" placeholder="🔍 Search recipes...">
+  </div>
+  
+  <div class="categories">
+    <button class="category-btn active" data-category="all">All</button>
+    <button class="category-btn" data-category="mains">Mains</button>
+    <button class="category-btn" data-category="desserts">Desserts</button>
+    <button class="category-btn" data-category="sides">Sides</button>
+    <button class="category-btn" data-category="soups">Soups</button>
+  </div>
+  
+  <div class="recipes-section">
+    <h2 class="section-title">Our Family Recipes</h2>
+    <div class="recipes-grid" id="recipes"></div>
+  </div>
+  
+  <div class="recipe-modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-image" id="modalImage"></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>Made with ❤️ for the family</p>
+  </footer>
+
+  <script>
+    const recipes = [
+      {
+        id: "1",
+        title: "Mom's Spicy Chicken Rice",
+        category: "mains",
+        emoji: "🍛",
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600",
+        description: "Aromatic, flavorful chicken and rice cooked the traditional way.",
+        prepTime: "1 hr 45 min",
+        servings: "6 people",
+        story: "This dish is a beautiful example of the 'Pulao' tradition from the Indian subcontinent, where rice and meat are cooked together in one pot. The technique of 'dum' — sealing the pot and letting it cook on low heat — traps all the aromatic steam inside, allowing the flavors to meld perfectly. Every family has their own version, passed down through generations. This is Q's mom's special take, with the perfect balance of spices.",
+        ingredients: [
+          "1/3 onion, sliced",
+          "Oil for frying",
+          "1 tsp cumin seeds (zeera)",
+          "1 tsp whole black pepper (sabat)",
+          "5-6 cloves (laung)",
+          "1 stick cinnamon",
+          "1 tbsp ginger-garlic paste",
+          "Salt to taste (1 tsp per cup of rice)",
+          "1.5 tsp red chili powder (mirch)",
+          "Half tsp turmeric (haldi)",
+          "1 whole chicken, cut into pieces",
+          "4 tomatoes, diced (more is better)",
+          "6 cups water",
+          "3 cups rice, pre-boiled",
+          "4 green chilies, halved"
+        ],
+        instructions: [
+          "Heat oil in a large pot. Add sliced onions and fry until golden brown.",
+          "Add water to the fried onions (about a glass) and let it cook.",
+          "Add cumin seeds, whole black pepper, cloves, and cinnamon stick. Sauté for a minute.",
+          "Add ginger-garlic paste and cook until the raw smell disappears.",
+          "Add salt, red chili powder, and turmeric. Mix well.",
+          "Add the whole chicken pieces. The chicken will release its own water. Cook on high heat.",
+          "Once the chicken is well-fried (bhoons), add the diced tomatoes. Let them cook until soft and mushy.",
+          "When the chicken becomes slightly tender, add 6 cups of water and bring to a boil.",
+          "Add the pre-boiled rice and green chilies.",
+          "Cook on high heat until most of the water evaporates.",
+          "Put the lid on (dum) and let it cook on low heat until the rice is fully cooked and fluffy."
+        ],
+        notes: "The key is to let the onions brown well before adding water — that's where the flavor comes from!"
+      },
+      {
+        id: "2",
+        title: "Pakora Curry",
+        category: "mains",
+        emoji: "🥘",
+        image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600",
+        description: "Crispy pakoras soaked in a rich, aromatic curry.",
+        prepTime: "1 hour",
+        servings: "4-6 people",
+        story: "Pakoras are believed to have originated in the Indian subcontinent during the Mughal era, when they were introduced as a savory snack for royalty. Today, they're loved across South Asia and beyond. This curry version transforms leftover pakoras into a hearty main dish — a brilliant example of 'waste not, want not' cooking that home cooks have perfected over generations. The yogurt-based gravy is cooling against the crispy, spiced pakoras.",
+        ingredients: [
+          "3/4 cup yogurt (beaten, no lumps)",
+          "3 tbsp besan (gram flour)",
+          "Water (half a dekchi/dutch oven)",
+          "1.5 tsp red chili powder (mirch)",
+          "1 tsp salt (namak)",
+          "1 tsp turmeric (haldi)",
+          "2 curry leaves (kari pata)",
+          "3 small onions, sliced",
+          "3 tbsp oil",
+          "3 tomatoes, chopped",
+          "1 tbsp ginger-garlic paste",
+          "6 heaping tbsp besan (gram flour)",
+          "1 tsp cumin seeds (zeera)",
+          "2 small onions, sliced",
+          "1 onion, chopped (for tarka)",
+          "3 dried red chilies (gol sabit)"
+        ],
+        instructions: [
+          "Make the Curry: Whisk yogurt and besan together until smooth with no lumps. Add water to fill half the dekchi. Mix in 1.5 tsp mirch, 1 tsp salt, and half tsp haldi. Add 2 kari pata. Turn off heat and set aside.",
+          "Make the Masala: Heat 3 tbsp oil in a pan. Add sliced onions and fry until golden brown. Add a splash of water. Add tomatoes, 1 tsp salt, 1.5 tsp mirch, half tsp haldi, and ginger-garlic paste. Cook until tomatoes are soft and mushy. Set aside.",
+          "Make the Pakora: Mix besan, 1 tsp mirch, 1 tsp salt, and zeera. Add little water to make a thick batter. Let it rest — small lumps should form. Add sliced onions and mix. Fry small spoonfuls until golden and crispy. Set aside.",
+          "Combine: Add the masala to the yogurt curry mixture. Turn on heat and bring to a gentle simmer. Add the pakoras carefully. Stir gently and let them soak in the gravy for a few minutes.",
+          "Make the Tarka: In a small pan, heat 2 tbsp oil. Add chopped onion and fry until golden. Add zeera, kari pata, and dried red chilies. Let them sizzle.",
+          "Finish: Pour the hot tarka over the curry. Serve hot with naan or rice!"
+        ],
+        notes: "The tarka (tadka) is what brings it all together — make sure it's sizzling hot when you pour it!"
+      },
+      {
+        id: "3",
+        title: "Baingan Bhaji",
+        category: "sides",
+        emoji: "🍆",
+        image: "https://images.unsplash.com/photo-1529589510304-b7e994a92f60?w=600",
+        description: "Tender eggplant cooked with onions, peppers, and aromatic spices.",
+        prepTime: "45 min",
+        servings: "4 people",
+        story: "Eggplant has been cultivated for over 5,000 years, originating in India and China. In South Asian kitchens, it became a beloved vegetable thanks to its ability to absorb flavors beautifully. 'Bhaji' simply means 'vegetable' in many regional languages, and this dish is a comforting home-style preparation that varies from household to household. The key is getting the eggplant crispy before adding it to the spices — that texture contrast makes it special.",
+        ingredients: [
+          "2 eggplants, sliced",
+          "2 onions, sliced",
+          "2 red peppers, sliced",
+          "1 tsp salt",
+          "1 tsp turmeric (haldi)",
+          "1 tbsp ginger-garlic paste",
+          "Oil for frying"
+        ],
+        instructions: [
+          "Heat oil in a pan over medium heat. Add sliced onions and sauté until translucent.",
+          "Add the red peppers and cook for a few minutes.",
+          "Add salt, turmeric, and ginger-garlic paste. Stir and cook on low heat for 2 minutes.",
+          "In a separate pan, fry the eggplant slices until golden and cooked through.",
+          "Add the fried eggplant to the onion mixture. Gently mix everything together.",
+          "Put the lid on and let it cook on dum (low heat) for 5-10 minutes so flavors meld together.",
+          "Serve hot as a side with rice or roti!"
+        ],
+        notes: "Fry the eggplant on medium-high heat for the best crispiness before adding to the onions."
+      },
+      {
+        id: "4",
+        title: "Chicken Kadai",
+        category: "mains",
+        emoji: "🍗",
+        image: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600",
+        description: "A quick and flavorful chicken curry with onions, tomatoes, and aromatic spices.",
+        prepTime: "45 min",
+        servings: "4 people",
+        story: "The 'Kadai' is a traditional wok-like cooking vessel made of heavy iron, originally from the Indian subcontinent. Its deep, round shape and high heat retention make it perfect for stir-fries and quick curries. This dish is named after the vessel it's cooked in — the intense heat of the kadai gives the chicken a distinctive smoky flavor that you just can't replicate in a regular pan. It's a weeknight staple in many homes because it comes together so quickly.",
+        ingredients: [
+          "4 small onions, sliced",
+          "1 tsp cumin seeds (zeera)",
+          "Oil",
+          "500g chicken pieces",
+          "1 tsp turmeric (haldi)",
+          "1 tsp black pepper (sabat)",
+          "Salt to taste",
+          "2 tomatoes, chopped"
+        ],
+        instructions: [
+          "Heat oil in a kadai or large pan. Add cumin seeds and let them sizzle.",
+          "Add sliced onions and cook until soft and translucent.",
+          "Add the chicken pieces. Fry for a few minutes until the water from the chicken evaporates.",
+          "Add turmeric, black pepper, and salt. Mix well.",
+          "Add chopped tomatoes and stir.",
+          "Reduce heat to low, cover, and let cook until chicken is tender and cooked through.",
+          "Serve hot with roti, naan, or rice!"
+        ],
+        notes: "The key is to let the onions cook down nicely before adding the chicken."
+      }
+    ];
+    
+    function renderRecipes(list) {
+      const grid = document.getElementById('recipes');
+      
+      if (!list || !list.length) {
+        grid.innerHTML = '<div class="empty-state"><div class="icon">🍽️</div><p>No recipes found</p></div>';
+        return;
+      }
+      
+      grid.innerHTML = list.map(r => `
+        <div class="recipe-card" onclick="openRecipe('${r.id}')">
+          <div class="recipe-image">
+            ${r.image ? `<img src="${r.image}" alt="${r.title}" onerror="this.parentElement.innerHTML='<span class=\\'emoji\\'>${r.emoji}</span>'">` : `<span class="emoji">${r.emoji}</span>`}
+          </div>
+          <div class="recipe-content">
+            <div class="recipe-category">${r.category}</div>
+            <h3 class="recipe-title">${r.title}</h3>
+            <p class="recipe-desc">${r.description}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function openRecipe(id) {
+      const r = recipes.find(x => x.id === id);
+      if (!r) return;
+      
+      const modalImage = document.getElementById('modalImage');
+      if (r.image) {
+        modalImage.innerHTML = `<img src="${r.image}" alt="${r.title}" onerror="this.parentElement.innerHTML='<span class=\\'emoji\\'>${r.emoji}</span>'">`;
+      } else {
+        modalImage.innerHTML = `<span class="emoji">${r.emoji}</span>`;
+      }
+      
+      const ingredientsList = r.ingredients.map(i => `<li>${i}</li>`).join('');
+      const instructionsList = r.instructions.map(i => `<li>${i}</li>`).join('');
+      
+      document.getElementById('modalBody').innerHTML = `
+        <h2>${r.title}</h2>
+        <div class="modal-meta">
+          <span>📁 ${r.category}</span>
+          <span>⏱️ ${r.prepTime}</span>
+          <span>👥 ${r.servings}</span>
+        </div>
+        
+        ${r.story ? `<div class="modal-section story">${r.story}</div>` : ''}
+        
+        <div class="modal-section ingredients">
+          <h3>Ingredients</h3>
+          <ul>${ingredientsList}</ul>
+        </div>
+        
+        <div class="modal-section instructions">
+          <h3>Instructions</h3>
+          <ol>${instructionsList}</ol>
+        </div>
+        
+        ${r.notes ? `<div class="modal-section notes"><h3>Mom's Notes</h3><p>${r.notes}</p></div>` : ''}
+      `;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    
+    // Search functionality
+    document.getElementById('search').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      
+      if (!query) {
+        renderRecipes(recipes);
+        return;
+      }
+      
+      const filtered = recipes.filter(r => 
+        r.title.toLowerCase().includes(query) || 
+        r.description.toLowerCase().includes(query) ||
+        r.category.toLowerCase().includes(query) ||
+        r.ingredients.some(i => i.toLowerCase().includes(query))
+      );
+      
+      renderRecipes(filtered);
+    });
+    
+    // Category filter
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const cat = this.dataset.category;
+        
+        if (cat === 'all') {
+          renderRecipes(recipes);
+        } else {
+          const filtered = recipes.filter(r => r.category === cat);
+          renderRecipes(filtered);
+        }
+      });
+    });
+    
+    // Close modal on outside click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target.id === 'modal') closeModal();
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+    
+    // Initial render
+    renderRecipes(recipes);
+  </script>
+</body>
+</html>
